@@ -31,7 +31,7 @@ const Login = ({ setLoading }) => {
             // const response = await axios.post("/user/login", user);
             const response = await axios({
                 method: "post",
-                url: "http://localhost:3131/user/login",
+                url: "/user/login",
                 data: user,
                 withCredentials: true,
             });

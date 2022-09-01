@@ -29,7 +29,11 @@ const Register = ({ setLoading }) => {
         try {
             setAlert(false);
             setLoading(true);
-            const response = await axios.post("/user/register", newUser);
+            const response = await axios({
+                method: 'post',
+                url: '/user/register',
+                data: newUser,
+            });
             setAlertContent({
                 username: response.data.username || null,
                 message: response.data.message || null,

@@ -11,10 +11,10 @@ import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
 // constants
-const PORT = process.env.PORT || 3030;
-const MONGO_URL = process.env.MONGO_URL || "";
-const SECRET = process.env.SECRET || "";
-const NODE_ENV = process.env.NODE_ENV || "";
+const PORT = process.env.PORT;
+const MONGO_URL = process.env.MONGO_URL;
+const SECRET = process.env.SECRET;
+const NODE_ENV = process.env.NODE_ENV;
 
 // express
 const api = express();
