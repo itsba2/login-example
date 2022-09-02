@@ -8,6 +8,7 @@ const InputText = ({
     label,
     isRequired,
     inputRef,
+    name,
 }) => {
     return (
         <div className="my-2">
@@ -18,6 +19,7 @@ const InputText = ({
                     label={label}
                     required={isRequired}
                     inputRef={inputRef}
+                    name={name}
                 />
         </div>
     );

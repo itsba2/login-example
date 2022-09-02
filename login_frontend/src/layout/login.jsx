@@ -8,7 +8,7 @@ import CustomButton from "./../components/customButton";
 import CustomHeader from "../components/customHeader";
 import CustomAlert from "../components/customAlert";
 
-const Login = ({ setLoading }) => {
+const Login = ({ setLoading, localStorage }) => {
     const usernameRef = useRef(null);
     const passwordRef = useRef(null);
 
@@ -28,25 +28,30 @@ const Login = ({ setLoading }) => {
         try {
             setAlert(false);
             setLoading(true);
-            // const response = await axios.post("/user/login", user);
             const response = await axios({
                 method: "post",
                 url: "/user/login",
                 data: user,
                 withCredentials: true,
             });
-            console.log(response);
+            localStorage.setItem('user', response.data.username);
+            localStorage.setItem('user_id', response.data._id);
             setAlertContent({
-                username: response.data.username || null,
-                message: response.data.message || null,
-                status: response.status || null,
+                username: response.data.username,
+                message: response.data.message,
+                status: response.status,
             });
             setAlert(true);
             setLoading(false);
+            e.target.reset();
         } catch (error) {
+            setAlertContent({
+                message: error.response.data,
+                status: error.response.status,
+            });
             setAlert(true);
             setLoading(false);
-            console.error("Error handling login", error);
+            e.target.reset();
         }
     };
 
@@ -56,11 +61,13 @@ const Login = ({ setLoading }) => {
             <div className="flex flex-col justify-center">
                 <InputText
                     label="Username"
+                    name="username"
                     isRequired={true}
                     inputRef={usernameRef}
                 />
                 <InputText
                     label="Password"
+                    name="password"
                     type="password"
                     isRequired={true}
                     inputRef={passwordRef}

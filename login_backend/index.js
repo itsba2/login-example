@@ -39,7 +39,7 @@ mongoose
     })
     .catch((error) => console.error(error.message));
 
-const sessionTimeout = 60 * 1000; // in miliseconds
+const sessionTimeout = 24 * 60 * 60 * 1000; // in miliseconds
 const sessionConfig = {
     store: new MongoStore({
         mongoUrl: MONGO_URL,
@@ -55,7 +55,7 @@ const sessionConfig = {
 
 // session middlewares
 api.use(session(sessionConfig));
-api.use(cookieParser());
+// api.use(cookieParser());
 
 // routes
 api.use("/user", userRoutes);

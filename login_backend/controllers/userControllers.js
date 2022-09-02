@@ -31,38 +31,39 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
     try {
+        const { username, password } = req.body;
         // Check if user exists
-        const validUser = await User.findOne({ username: req.body.username });
+        const validUser = await User.findOne({ username });
         !validUser && res.status(400).json("Invalid username or password");
         // Check password
         const validPassword = await bcrypt.compare(
-            req.body.password,
+            password,
             validUser.password
-        );
+        );  
         !validPassword && res.status(400).json("Invalid username or password");
 
-        console.log("session", req.session);
+        // console.log("session", req.session);
 
-        req.session.user = req.body.username;
+        req.session.user = username;
+        req.session.isAuth = true;
         // await req.session.save();
+        console.log(req.session);
 
-        console.log(req.session)
-        // session = req.session;
-        // session.userid = req.body.username;
+        // console.log(req.session);
 
         res.status(200).json({
             _id: validUser._id,
-            username: validUser.username,
+            username: username,
             message: "Login successful.",
         });
-    } catch (error) {   
+    } catch (error) {
         res.status(500);
     }
 };
 
-export const logoutUser = (req, res) => {
+export const logoutUser = async (req, res) => {
     try {
-        req.session.destroy();
+        await req.session.destroy();
         res.status(200).json("Logged out.");
     } catch (error) {
         res.status(500);
